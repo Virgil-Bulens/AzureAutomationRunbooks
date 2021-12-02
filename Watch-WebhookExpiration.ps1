@@ -6,6 +6,8 @@
 .DESCRIPTION
 
   Requires the following:
+    - "Send-GraphMail" Runbook
+
     - A system assigned managed identity for the Automation Account with following permissions:
       - "Automation Operator" role on the Automation Account that contains the "Send-GraphMail" Runbook
       - Permission to read Azure Automation Webhooks
@@ -43,8 +45,8 @@ foreach ($Variable in $AutomationVariables)
 
 $RunbookParameters = @{
     'Name'                  = "Send-GraphMail"
-    'ResourceGroupName'     = $MailResourceGroupName
-    'AutomationAccountName' = $MailAutomationAccountName
+    'ResourceGroupName'     = $SendGraphMailResourceGroupName
+    'AutomationAccountName' = $SendGraphMailAutomationAccountName
 }
 
 
