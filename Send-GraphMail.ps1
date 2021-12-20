@@ -19,8 +19,6 @@
       - TransactionalMailAppId
       - From
       - ExpirationWarningAddress
-    - Az.Accounts and Az.KeyVault modules imported in the Automation Account
-
 
 .PARAMETER To
   String mail address the mail will be sent to
@@ -33,7 +31,7 @@
 
 .NOTES
         Author: Virgil Bulens
-        Last Updated: 12/17/2021
+        Last Updated: 12/20/2021
     Version 1.1
 
 #>
@@ -112,12 +110,19 @@ else
 # Main
 #
 # Get required variables and secrets
-$TenantId = Get-AzContext | ForEach-Object Tenant | ForEach-Object Id
-$AppSecret = Get-AzKeyVaultSecret -VaultName $KeyVaultName -Name $SecretName -AsPlainText
+$TenantId = Get-AzContext | `
+  ForEach-Object Tenant | `
+  ForEach-Object Id
+
+$AppSecret = Get-AzKeyVaultSecret -VaultName $KeyVaultName `
+  -Name $SecretName `
+  -AsPlainText
 
 # Check if key is about to expire
 $KeyExpiring = $false
-$KeyExpirationDate = Get-AzKeyVaultSecret -VaultName $KeyVaultName -Name $SecretName | ForEach-Object Expires
+$KeyExpirationDate = Get-AzKeyVaultSecret -VaultName $KeyVaultName `
+  -Name $SecretName | `
+  ForEach-Object Expires
 $Today = Get-Date
 $DaysUntilExpiration = $KeyExpirationDate - $Today | ForEach-Object Days
 
